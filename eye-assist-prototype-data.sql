@@ -47,6 +47,16 @@ INSERT INTO `admins` (`id`, `username`, `password`, `email`, `last_login`, `fail
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `allowed_ip`
+--
+
+CREATE TABLE `allowed_ip` (
+  `allowed` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `api_tokens`
 --
 
@@ -105,6 +115,55 @@ INSERT INTO `mfa_tokens` (`id`, `admin_id`, `token`, `created_at`, `expires_at`)
 (26, 1, '203624', '2025-05-20 01:24:57', '2025-05-20 09:26:57'),
 (27, 1, '939399', '2025-05-20 01:35:51', '2025-05-20 09:37:51'),
 (28, 1, '858213', '2025-05-20 01:38:03', '2025-05-20 09:40:03');
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `user_id` varchar(255) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `email` varchar(150) NOT NULL,
+  `last_login` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `failed_attempts` int(11) NOT NULL DEFAULT 0,
+  `lock_until` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`user_id`, `username`, `password`, `email`, `last_login`, `failed_attempts`, `lock_until`) VALUES
+('1', 'john', 'yokoOnoisaBitch', 'imagine@gmail.com', '2025-06-05 13:57:27', 0, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_log`
+--
+
+CREATE TABLE `user_log` (
+  `log_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `time` datetime NOT NULL,
+  `activity_type` varchar(50) NOT NULL,
+  `activity_details` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`activity_details`))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_navigational_activity`
+--
+
+CREATE TABLE `user_navigational_activity` (
+  `user_id` int(11) NOT NULL,
+  `last_latitude` decimal(9,6) NOT NULL,
+  `last_longitude` decimal(9,6) NOT NULL,
+  `time` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Indexes for dumped tables
@@ -132,6 +191,18 @@ ALTER TABLE `mfa_tokens`
   ADD KEY `admin_id` (`admin_id`);
 
 --
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`user_id`);
+
+--
+-- Indexes for table `user_log`
+--
+ALTER TABLE `user_log`
+  ADD PRIMARY KEY (`log_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -152,6 +223,12 @@ ALTER TABLE `api_tokens`
 --
 ALTER TABLE `mfa_tokens`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+
+--
+-- AUTO_INCREMENT for table `user_log`
+--
+ALTER TABLE `user_log`
+  MODIFY `log_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
