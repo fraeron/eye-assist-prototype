@@ -53,7 +53,7 @@ class LoginActivity : AppCompatActivity() {
                     if (res != null) {
                         if (res.success) {
                             // Check if IP is allowed
-                            if (res.allowedIP == false) {
+                            if (!res.allowedIP) {
                                 Toast.makeText(this@LoginActivity, "Access denied: IP not allowed", Toast.LENGTH_LONG).show()
                                 return
                             }

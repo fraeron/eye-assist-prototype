@@ -27,11 +27,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user = $result->fetch_assoc();
 
         if ($user) {
-            $user_ip = $_SERVER['REMOTE_ADDR'];
+            $user_ip = $_SERVER['REMOTE_ADDR'] === '::1' ? '127.0.0.1' : $_SERVER['REMOTE_ADDR'];
+
 
             if (password_verify($password, $user['password'])) {
                 // Check if IP is allowed
-                $stmt_ip = $db->prepare("SELECT * FROM allowed_ips WHERE ip_address = ?");
+                $stmt_ip = $db->prepare("SELECT * FROM allowed_ip WHERE allowed = ?");
                 $stmt_ip->bind_param('s', $user_ip);
                 $stmt_ip->execute();
                 $ip_result = $stmt_ip->get_result();
@@ -68,12 +69,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['username'] = $username;
                 $_SESSION['otp'] = $otp;
 
-                echo json_encode([
-                    'success' => true,
-                    'message' => 'OTP sent',
-                    'requiresOtp' => true,
-                    'ip' => $user_ip
-                ]);
+                echo json_encode(['success' => true,
+                'message' => 'OTP sent',
+                'requiresOtp' => true,
+                'ahahahah' => $message . $startTime . $user_ip]);
             } else {
                 // Invalid password — increment attempts
                 $stmt = $db->prepare("UPDATE admins SET failed_attempts = failed_attempts + 1 WHERE id = ?");

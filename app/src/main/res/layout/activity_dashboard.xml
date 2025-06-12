@@ -31,4 +31,10 @@
         android:text="Logout"
         />
 
+    <TextView
+        android:id="@+id/sensor_data_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sensor Data Appears Here" />
+
 </LinearLayout>
