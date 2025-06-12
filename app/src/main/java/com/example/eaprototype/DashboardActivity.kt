@@ -40,6 +40,9 @@ class DashboardActivity : AppCompatActivity() {
         // Fetch sensor data
         RetrofitClient.instance.getSensorData(apiToken).enqueue(object : Callback<SensorResponse> {
             override fun onResponse(call: Call<SensorResponse>, response: Response<SensorResponse>) {
+                Log.d("RawResponse", response.body().toString())
+                Log.d("RawJSON", response.errorBody()?.string() ?: "No error body")
+
                 if (response.isSuccessful && response.body()?.success == true) {
                     val sensorData = response.body()?.data
                     sensorText.text = sensorData?.joinToString("\n") {
@@ -47,6 +50,7 @@ class DashboardActivity : AppCompatActivity() {
                     } ?: "No sensor data available."
                 } else {
                     sensorText.text = "Failed to load sensor data."
+                    Log.e("SensorResponse", "Response not successful or body is null")
                 }
             }
 

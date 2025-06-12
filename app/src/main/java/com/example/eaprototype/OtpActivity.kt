@@ -2,6 +2,7 @@ package com.example.eaprototype
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -39,6 +40,7 @@ class OtpActivity : AppCompatActivity() {
                             // Use real values from server
                             val apiToken = otpResponse.token
                             val userId = otpResponse.userId
+                            Log.d("OtpResponse", "Token: ${otpResponse.token}, UserID: ${otpResponse.userId}")//debug
                             navigateToDashboard(apiToken, userId)
                         } else {
                             // OTP verification failed, show error.

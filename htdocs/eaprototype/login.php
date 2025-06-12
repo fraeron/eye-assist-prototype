@@ -69,10 +69,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['username'] = $username;
                 $_SESSION['otp'] = $otp;
 
-                echo json_encode(['success' => true,
-                'message' => 'OTP sent',
-                'requiresOtp' => true,
-                'ahahahah' => $message . $startTime . $user_ip]);
+                echo json_encode([
+                    'success' => true,
+                    'message' => 'OTP section hit',
+                    'otp' => $otp,
+                    'requiresOtp' => true,
+                    'allowedIP' => true,
+                    'ip' => $user_ip
+                ]);
             } else {
                 // Invalid password — increment attempts
                 $stmt = $db->prepare("UPDATE admins SET failed_attempts = failed_attempts + 1 WHERE id = ?");

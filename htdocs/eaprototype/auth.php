@@ -4,6 +4,7 @@ class Auth {
 
     public function __construct() {
         require_once 'db.php';
+        global $db; // This brings the $db variable from db.php into scope
         $this->db = $db;
     }
 
