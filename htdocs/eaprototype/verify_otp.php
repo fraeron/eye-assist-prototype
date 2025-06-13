@@ -1,23 +1,20 @@
 <?php
-
-// Include database connection
 require_once 'db.php';
 
-// Expect JSON as POST data then decode.
-$rawData = file_get_contents('php://input');    
+ob_clean(); // clear any previous output buffer
+header('Content-Type: application/json');
+$rawData = file_get_contents('php://input');
 $data = json_decode($rawData);
 
 if ($data === null) {
-    // Handle the error if the JSON is invalid
     echo json_encode(["success" => false, "message" => "Invalid JSON format."]);
-    exit(); // Stop execution if JSON is invalid
+    exit();
 }
 
 if (isset($data->username) && isset($data->otp)) {
     $username = $data->username;
     $otp = $data->otp;
 
-    // Query the database to get the user ID
     $query = "SELECT * FROM admins WHERE username = ?";
     $stmt = $db->prepare($query);
     $stmt->bind_param('s', $username);
@@ -26,24 +23,35 @@ if (isset($data->username) && isset($data->otp)) {
     $user = $result->fetch_assoc();
 
     if ($user) {
-        // Check the OTP in the mfa_tokens table
         $stmt = $db->prepare("SELECT * FROM mfa_tokens WHERE admin_id = ? AND token = ? AND expires_at > NOW()");
-        // $stmt = $db->prepare("SELECT * FROM mfa_tokens WHERE admin_id = ? AND token = ?");
         $stmt->bind_param('is', $user['id'], $otp);
         $stmt->execute();
         $result = $stmt->get_result();
-        
+
         if ($result->num_rows > 0) {
-            // OTP is valid
-            echo json_encode(['success' => true, 'message' => 'OTP Verified']);
+            // Generate secure token
+            $token = bin2hex(random_bytes(32)); // 64-character hex token
+            $userId = $user['id'];
+            $createdAt = date('Y-m-d H:i:s');
+            $expiresAt = date('Y-m-d H:i:s', strtotime('+2 hours')); // Or however long you want
+
+            // Insert into api_token table
+            $stmt = $db->prepare("INSERT INTO api_tokens (user_id, token, created_at, expires_at) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param('isss', $userId, $token, $createdAt, $expiresAt);
+            $stmt->execute();
+
+            echo json_encode([
+                'success' => true,
+                'message' => 'OTP Verified',
+                'token' => $token,
+                'userId' => $userId
+            ]);
         } else {
-            // Invalid OTP or expired
             echo json_encode(['success' => false, 'message' => 'Invalid or expired OTP']);
         }
     } else {
         echo json_encode(['success' => false, 'message' => 'User not found']);
     }
 } else {
-    echo json_encode(['success' => false, 'message' => 'Wtf is this sh*t']);
+    echo json_encode(['success' => false, 'message' => 'Missing username or OTP']);
 }
-?>

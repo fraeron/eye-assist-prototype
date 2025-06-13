@@ -52,23 +52,27 @@ class LoginActivity : AppCompatActivity() {
                     val res = response.body()
                     if (res != null) {
                         if (res.success) {
+                            // Check if IP is allowed
+                            if (!res.allowedIP) {
+                                Toast.makeText(this@LoginActivity, "Access denied: IP not allowed", Toast.LENGTH_LONG).show()
+                                return
+                            }
+
                             Toast.makeText(this@LoginActivity, "Success: ${res.message}", Toast.LENGTH_LONG).show()
 
                             // Check if OTP is required.
                             if (res.requiresOtp) {
-                                // OTP is required, proceed to OTP screen.
                                 Toast.makeText(this@LoginActivity, "OTP required", Toast.LENGTH_LONG).show()
 
                                 // Save username in intent to refer later in OTP activity.
                                 val intent = Intent(this@LoginActivity, OtpActivity::class.java)
-                                intent.putExtra("Username", username);
+                                intent.putExtra("Username", username)
 
                                 // Change layout to OTP screen.
                                 startActivity(intent)
                             } else {
                                 Toast.makeText(this@LoginActivity, "OTP check is down. Try again later.", Toast.LENGTH_LONG).show()
                             }
-
                         } else {
                             Toast.makeText(this@LoginActivity, "Failed: ${res.message}", Toast.LENGTH_LONG).show()
                         }

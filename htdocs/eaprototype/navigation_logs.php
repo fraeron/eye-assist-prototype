@@ -11,7 +11,7 @@ $encryption_key = 'your-secret-key';
 $encrypted_data = openssl_encrypt($page_name, 'aes-256-cbc', $encryption_key, 0, '1234567890123456');
 
 // Store the encrypted log
-$stmt = $db->prepare("INSERT INTO navigation_logs (user_id, encrypted_page_name) VALUES (?, ?)");
+$stmt = $db->prepare("INSERT INTO user_navigational_activity (user_id, encrypted_page_name) VALUES (?, ?)");
 $stmt->bind_param('is', $user_id, $encrypted_data);
 $stmt->execute();
 

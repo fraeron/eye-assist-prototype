@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 object RetrofitClient {
-    private const val BASE_URL = "http://192.168.1.10/eaprototype/"
+    private const val BASE_URL = "http://192.168.18.21/eaprototype/" //change in accordance to your device ip
 
     private var gson: Gson = GsonBuilder()
         .setLenient()

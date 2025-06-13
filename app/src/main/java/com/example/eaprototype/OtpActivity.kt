@@ -2,6 +2,7 @@ package com.example.eaprototype
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -34,9 +35,13 @@ class OtpActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         val otpResponse = response.body()
                         if (otpResponse != null && otpResponse.success) {
-                            // Verify then proceed to the dashboard.
                             Toast.makeText(this@OtpActivity, "OTP verified!", Toast.LENGTH_SHORT).show()
-                            navigateToDashboard()
+
+                            // Use real values from server
+                            val apiToken = otpResponse.token
+                            val userId = otpResponse.userId
+                            Log.d("OtpResponse", "Token: ${otpResponse.token}, UserID: ${otpResponse.userId}")//debug
+                            navigateToDashboard(apiToken, userId)
                         } else {
                             // OTP verification failed, show error.
                             Toast.makeText(this@OtpActivity, "Invalid OTP", Toast.LENGTH_SHORT).show()
@@ -53,8 +58,11 @@ class OtpActivity : AppCompatActivity() {
         }
     }
 
-    private fun navigateToDashboard() {
-        // Navigate to the admin dashboard.
-        startActivity(Intent(this, DashboardActivity::class.java))
+    private fun navigateToDashboard(token: String, userId: Int) {
+        val intent = Intent(this, DashboardActivity::class.java)
+        intent.putExtra("API_TOKEN", token)
+        intent.putExtra("USER_ID", userId)
+        startActivity(intent)
+        finish()
     }
 }
