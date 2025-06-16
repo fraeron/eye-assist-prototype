@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Existing permission -->
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Add location permissions -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -14,6 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EAPrototype"
         tools:targetApi="31">
+
         <!-- MainActivity is the launcher activity -->
         <activity android:name=".MainActivity"
             android:exported="true">
