@@ -24,7 +24,11 @@ interface ApiService {
     @POST("navigation_logs.php")
     fun sendNavigationLog(
         @Field("user_id") userId: Int,
-        @Field("page_name") pageName: String
+        @Field("page_name") pageName: String,
+        @Field("last_latitude") lastLatitude: String,
+        @Field("last_longitude") lastLongitude: String,
+        @Field("time") time: String
     ): Call<SensorDashResponse>
+
 
 }
