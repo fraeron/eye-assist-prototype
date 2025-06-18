@@ -5,5 +5,10 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
+    <style name="Button.LightPurple" parent="ThemeOverlay.AppCompat">
+        <item name="colorAccent">@color/light_purple</item>
+    </style>
+
+
     <style name="Theme.EAPrototype" parent="Base.Theme.EAPrototype" />
 </resources>

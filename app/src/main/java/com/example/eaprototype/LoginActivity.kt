@@ -74,7 +74,10 @@ class LoginActivity : AppCompatActivity() {
                                 Toast.makeText(this@LoginActivity, "OTP check is down. Try again later.", Toast.LENGTH_LONG).show()
                             }
                         } else {
-                            Toast.makeText(this@LoginActivity, "Failed: ${res.message}", Toast.LENGTH_LONG).show()
+                            if (res.type == "LOCKED_ACC") {
+                                startActivity(Intent(this@LoginActivity, LockedActivity::class.java))
+                            }
+                            else Toast.makeText(this@LoginActivity, "Failed: ${res.message}", Toast.LENGTH_LONG).show()
                         }
                     }
                 } else {

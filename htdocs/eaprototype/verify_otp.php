@@ -33,7 +33,7 @@ if (isset($data->username) && isset($data->otp)) {
             $token = bin2hex(random_bytes(32)); // 64-character hex token
             $userId = $user['id'];
             $createdAt = date('Y-m-d H:i:s');
-            $expiresAt = date('Y-m-d H:i:s', strtotime('+2 hours')); // Or however long you want
+            $expiresAt = date('Y-m-d H:i:s', strtotime('+1 minute')); 
 
             // Insert into api_token table
             $stmt = $db->prepare("INSERT INTO api_tokens (user_id, token, created_at, expires_at) VALUES (?, ?, ?, ?)");

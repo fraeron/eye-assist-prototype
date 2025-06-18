@@ -38,5 +38,9 @@
 
         <!-- Dashboard -->
         <activity android:name=".DashboardActivity" />
+
+        <!-- Locked account -->
+        <activity android:name=".LockedActivity" />
+
     </application>
 </manifest>

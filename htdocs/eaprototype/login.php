@@ -1,10 +1,23 @@
 <?php
+
+/*
+    ERROR AND STATUS TYPES:
+    "OK"                    -> OK.
+    "DENIED_IP"             -> IP is not allowed error.
+    "MULTIPLE_ATTEMPTS"     -> Too many login attempts.
+    "LOCKED_ACC"            -> Locked account.
+
+*/
+
+
+
 require_once 'db.php';
 session_start(); // Required for session variables
 
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    date_default_timezone_set('Asia/Manila');
 
     $rawData = file_get_contents('php://input');
     $data = json_decode($rawData);
@@ -27,7 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($_SESSION['login_attempts'] >= 5) {
             echo json_encode([
                 "success" => false,
-                "message" => "Too many login attempts from this session. Please wait before retrying."
+                "message" => "Too many login attempts from this session. Please wait before retrying.",
+                "type" => "MULTIPLE_ATTEMPTS"
             ]);
             exit();
         }
@@ -46,6 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!is_null($user['lock_until']) && $user['lock_until'] > $current_time) {
                 echo json_encode([
                     'success' => false,
+                    'type' => 'LOCKED_ACC',
                     'message' => 'Account is locked until ' . $user['lock_until']
                 ]);
                 exit();
@@ -64,6 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     echo json_encode([
                         'success' => false,
                         'message' => 'Access denied from this IP address.',
+                        'type' => 'DENIED_IP',
                         'ip' => $user_ip
                     ]);
                     exit();
@@ -78,7 +94,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 // Proceed with OTP
                 $otp = rand(100000, 999999);
-                date_default_timezone_set('Asia/Manila');
                 $startTime = date("Y-m-d H:i:s");
                 $expires_at = date('Y-m-d H:i:s', strtotime('+2 minutes', strtotime($startTime)));
 
@@ -91,7 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 echo json_encode([
                     'success' => true,
-                    'message' => 'OTP section hit',
+                    'message' => 'OTP is sent to your email.',
                     'otp' => $otp,
                     'requiresOtp' => true,
                     'allowedIP' => true,
@@ -115,6 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     echo json_encode([
                         'success' => false,
+                        'type' => 'LOCKED_ACC',
                         'message' => 'Too many failed attempts. Account locked until ' . $lock_until
                     ]);
                 } else {
