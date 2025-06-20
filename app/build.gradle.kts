@@ -56,5 +56,6 @@ dependencies {
     // OkHttp logging interceptor (for logging HTTP requests)
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
 
-
+    // For splash screen.
+    implementation("androidx.core:core-splashscreen:1.0.0")
 }

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">EAPrototype</string>
+    <string name="didn_t_receive_any">Didn\'t receive any?</string>
+    <string name="logout">LOGOUT</string>
 </resources>

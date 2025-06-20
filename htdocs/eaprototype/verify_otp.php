@@ -15,7 +15,7 @@ if (isset($data->username) && isset($data->otp)) {
     $username = $data->username;
     $otp = $data->otp;
 
-    $query = "SELECT * FROM admins WHERE username = ?";
+    $query = "SELECT * FROM users WHERE username = ?";
     $stmt = $db->prepare($query);
     $stmt->bind_param('s', $username);
     $stmt->execute();
@@ -23,7 +23,7 @@ if (isset($data->username) && isset($data->otp)) {
     $user = $result->fetch_assoc();
 
     if ($user) {
-        $stmt = $db->prepare("SELECT * FROM mfa_tokens WHERE admin_id = ? AND token = ? AND expires_at > NOW()");
+        $stmt = $db->prepare("SELECT * FROM mfa_tokens WHERE user_id = ? AND token = ? AND expires_at > NOW()");
         $stmt->bind_param('is', $user['id'], $otp);
         $stmt->execute();
         $result = $stmt->get_result();

@@ -6,7 +6,6 @@
     "DENIED_IP"             -> IP is not allowed error.
     "MULTIPLE_ATTEMPTS"     -> Too many login attempts.
     "LOCKED_ACC"            -> Locked account.
-
 */
 
 
@@ -46,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit();
         }
 
-        $query = "SELECT * FROM admins WHERE username = ?";
+        $query = "SELECT * FROM users WHERE username = ?";
         $stmt = $db->prepare($query);
         $stmt->bind_param('s', $username);
         $stmt->execute();
@@ -86,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
 
                 // Reset all failed attempts
-                $stmt = $db->prepare("UPDATE admins SET failed_attempts = 0, lock_until = NULL WHERE id = ?");
+                $stmt = $db->prepare("UPDATE users SET failed_attempts = 0, lock_until = NULL WHERE id = ?");
                 $stmt->bind_param('i', $user['id']);
                 $stmt->execute();
 
@@ -97,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $startTime = date("Y-m-d H:i:s");
                 $expires_at = date('Y-m-d H:i:s', strtotime('+2 minutes', strtotime($startTime)));
 
-                $stmt = $db->prepare("INSERT INTO mfa_tokens (admin_id, token, expires_at) VALUES (?, ?, ?)");
+                $stmt = $db->prepare("INSERT INTO mfa_tokens (user_id, token, expires_at) VALUES (?, ?, ?)");
                 $stmt->bind_param('iss', $user['id'], $otp, $expires_at);
                 $stmt->execute();
 
@@ -116,7 +115,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Wrong password — increment failed attempts in DB
                 $new_attempts = $user['failed_attempts'] + 1;
 
-                $stmt = $db->prepare("UPDATE admins SET failed_attempts = ? WHERE id = ?");
+                $stmt = $db->prepare("UPDATE users SET failed_attempts = ? WHERE id = ?");
                 $stmt->bind_param('ii', $new_attempts, $user['id']);
                 $stmt->execute();
 
@@ -124,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 if ($new_attempts >= 5) {
                     $lock_until = date('Y-m-d H:i:s', strtotime('+30 minutes'));
-                    $stmt = $db->prepare("UPDATE admins SET lock_until = ? WHERE id = ?");
+                    $stmt = $db->prepare("UPDATE users SET lock_until = ? WHERE id = ?");
                     $stmt->bind_param('si', $lock_until, $user['id']);
                     $stmt->execute();
 

@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresPermission
@@ -61,7 +62,7 @@ class DashboardActivity : AppCompatActivity() {
             sendNavigationWithLocation()
         }
 
-        val logoutBtn = findViewById<Button>(R.id.btn_logout)
+        val logoutBtn = findViewById<ImageButton>(R.id.logout_ico)
         logoutBtn.setOnClickListener {
             finish() // or navigate to login activity
         }
@@ -75,6 +76,7 @@ class DashboardActivity : AppCompatActivity() {
             val currentTime = getCurrentTimestamp()
 
             // Call Retrofit API to send navigation log with location
+            // REQUIREMENT 3
             RetrofitClient.instance.sendNavigationLog(
                 userId,
                 "DashboardActivity",
@@ -122,7 +124,7 @@ class DashboardActivity : AppCompatActivity() {
                     "Location permission denied. Navigation logs will not include location.",
                     Toast.LENGTH_LONG
                 ).show()
-                // Optionally send navigation log without location here if you want
+                // Optionally send navigation log without location here if you want (CHATGPT?)
             }
         }
     }

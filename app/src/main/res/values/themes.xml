@@ -9,6 +9,10 @@
         <item name="colorAccent">@color/light_purple</item>
     </style>
 
+    <style name="Button.LogOut" parent="ThemeOverlay.AppCompat">
+        <item name="colorAccent">@color/light_red</item>
+    </style>
+
 
     <style name="Theme.EAPrototype" parent="Base.Theme.EAPrototype" />
 </resources>

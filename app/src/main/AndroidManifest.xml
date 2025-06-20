@@ -41,6 +41,5 @@
 
         <!-- Locked account -->
         <activity android:name=".LockedActivity" />
-
     </application>
 </manifest>

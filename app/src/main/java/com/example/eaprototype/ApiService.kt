@@ -9,6 +9,9 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface ApiService {
+
+    // REQUIREMENT 4
+
     // Endpoint for user login.
     @POST("login.php")
     fun login(@Body loginRequest: LoginRequest): Call<LoginResponse>

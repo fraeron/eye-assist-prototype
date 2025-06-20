@@ -2,6 +2,8 @@ package com.example.eaprototype
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
+import android.view.MotionEvent
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -31,7 +33,36 @@ class LoginActivity : AppCompatActivity() {
         loginBtn.setOnClickListener {
             loginUser()
         }
+
+        // Set up a touch listener to detect clicks on the drawableEnd (eye icon)
+//        passwordInput.setOnTouchListener { v, event ->
+//            if (event.action == MotionEvent.ACTION_UP) {
+//                val drawableEnd = passwordInput.compoundDrawablesRelative[2] // Get drawableEnd (eye icon)
+//                if (drawableEnd != null && event.rawX >= (passwordInput.right - drawableEnd.bounds.width())) {
+//                    // Toggle password visibility on click of eye icon
+//                    togglePasswordVisibility()
+//                }
+//            }
+//            false
+//        }
     }
+
+    // Function to toggle password visibility
+//    private fun togglePasswordVisibility() {
+//        val currentInputType = passwordInput.inputType
+//        if (currentInputType == (InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD)) {
+//            passwordInput.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+//            passwordInput.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.visibility_24px, 0) // Show icon
+//        } else {
+//            passwordInput.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+//            passwordInput.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, R.drawable.visibility_off_24px, 0) // Hide icon
+//        }
+//
+//
+//
+//        // Move the cursor to the end of the text after changing the input type
+//        passwordInput.setSelection(passwordInput.text.length)
+//    }
 
     // Do login when triggered.
     private fun loginUser() {
@@ -53,6 +84,8 @@ class LoginActivity : AppCompatActivity() {
                     if (res != null) {
                         if (res.success) {
                             // Check if IP is allowed
+
+                            // REQUIREMENT 4
                             if (!res.allowedIP) {
                                 Toast.makeText(this@LoginActivity, "Access denied: IP not allowed", Toast.LENGTH_LONG).show()
                                 return

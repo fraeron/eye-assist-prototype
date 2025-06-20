@@ -1,9 +1,8 @@
 <?php
-// Database connection settings
-$host = 'localhost';         // Your database host
-$username = 'root';          // Your database username
-$password = '';              // Your database password
-$dbname = 'prototype';   // Your database name
+$host = 'localhost';         
+$username = 'root';          
+$password = '';              
+$dbname = 'prototype';   
 
 // Create a new MySQLi connection
 $db = new mysqli($host, $username, $password, $dbname);

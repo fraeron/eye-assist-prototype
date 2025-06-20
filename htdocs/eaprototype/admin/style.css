@@ -1,0 +1,227 @@
+:root
+{
+	--twitter-blue-light:#E8F5FE;
+	--twitter-gray:#657786;
+	--twitter-white:#FFF
+}
+
+body
+{
+	margin:0;
+	padding:0;
+	font-family:'Roboto',sans-serif
+}
+
+header
+{
+	background-color:var(--twitter-blue);
+	color:var(--twitter-white);
+	padding:10px
+}
+
+nav ul
+{
+	list-style:none;
+	margin:0;
+	padding:0
+}
+
+nav li
+{
+	display:inline-block;
+	margin-right:20px
+}
+
+nav li:last-child
+{
+	margin-right:0
+}
+
+nav a
+{
+	color:var(--twitter-white);
+	text-decoration:none
+}
+
+.card-container
+{
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	height:100%
+}
+
+.card
+{
+	background-color:var(--twitter-white);
+	border-radius:8px;
+	box-shadow:0 2px 4px #0003;
+	padding:40px;
+	text-align:center;
+	width:400px
+}
+
+.card h2
+{
+	color:var(--twitter-gray);
+	font-size:24px;
+	margin-bottom:20px
+}
+
+.card p
+{
+	color:var(--twitter-gray);
+	font-size:16px;
+	margin-bottom:40px
+}
+
+.buttons
+{
+	display:flex;
+	justify-content:center
+}
+
+.button
+{
+	background-color:var(--twitter-blue);
+	border:none;
+	border-radius:50px;
+	color:var(--twitter-white);
+	font-size:18px;
+	margin-right:20px;
+	padding:10px 20px;
+	text-decoration:none;
+	transition:all .3s ease
+}
+
+.button:hover
+{
+	background-color:var(--twitter-blue-light)
+}
+
+:root
+{
+	--twitter-blue:#9d1df2;
+	--twitter-blue-light:#E8F5FE;
+	--twitter-gray:#657786;
+	--twitter-white:#FFF
+}
+
+.center
+{
+	margin:auto;
+	width:50%;
+	padding:10px
+}
+
+body
+{
+	margin:0;
+	padding:0;
+	font-family:'Roboto',sans-serif
+}
+
+header
+{
+	background-color:var(--twitter-blue);
+	color:var(--twitter-white);
+	padding:10px
+}
+
+nav ul
+{
+	list-style:none;
+	margin:0;
+	padding:0
+}
+
+nav li
+{
+	display:inline-block;
+	margin-right:20px
+}
+
+nav li:last-child
+{
+	margin-right:0
+}
+
+nav a
+{
+	color:var(--twitter-white);
+	text-decoration:none
+}
+
+form
+{
+	background-color:var(--twitter-white);
+	border-radius:8px;
+	box-shadow:0 2px 4px #0003;
+	margin:40px auto;
+	max-width:400px;
+	padding:40px
+}
+
+form h2
+{
+	color:var(--twitter-gray);
+	font-size:24px;
+	margin-bottom:20px
+}
+
+form label
+{
+	color:var(--twitter-gray);
+	display:block;
+	font-size:16px;
+	margin-bottom:10px
+}
+
+form input[type="text"],form input[type="password"]
+{
+	border:1px solid var(--twitter-gray);
+	border-radius:4px;
+	font-size:16px;
+	padding:8px;
+	width:100%
+}
+
+form button
+{
+	background-color:var(--twitter-blue);
+	border:none;
+	border-radius:50px;
+	color:var(--twitter-white);
+	font-size:18px;
+	margin-top:20px;
+	padding:10px 20px;
+	text-decoration:none;
+	transition:all .3s ease
+}
+
+form button:hover
+{
+	background-color:var(--twitter-blue-light)
+}
+
+footer
+{
+	background-color:var(--twitter-blue);
+	color:var(--twitter-white);
+	padding:10px;
+	text-align:center;
+	position:fixed;
+	bottom:0;
+	left:0;
+	width:100%
+}
+
+footer p
+{
+	margin:0;
+	font-size:14px
+}
+
+p .warning {
+	color: red;
+}
